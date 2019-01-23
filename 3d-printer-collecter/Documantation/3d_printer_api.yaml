@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: 3-D Printer API
+  description: This API extends the function of the Ultimaker 3s API
+  version: 0.1.0
+paths:
+  /get_jobs:
+    get:
+      summary: Get a list of all the previous jobs done on the system.
+      description: Allows the user to search the database for all previous job filename, start and end times, current status, and printer.
+
+        The return type is a JSON array of filename/detail pairs represented as a dict
+
+      responses:
+        '200':
+          description: A JSON array of name/details pairs represented as a dict
+
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: filename
+                  details:
+                    type: array
+                    description: array contains all other data about job including printer name, start time, end time, and status
+
+  /get_display_stats:
+    get:
+      summary: Get a list of the current job stats for each printer.
+      description: Allows the user to get the current job stats for both printers. The job stats are filename, start and end times, current status, bed and head temps and printer.
+
+        The return type is a JSON array of filename/detail pairs represented as a dict
+
+      responses:
+        '200':
+          description: A JSON array of name/details pairs represented as a dict
+
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description:
+                  details:
+                    type: array
+                    description: array contains all stats about job needed for display including printer name, start time, end time, status, filename, and bed and head temps.
+
+
+
+
+  /objfile:
+    POST:
+      summary: obj file is sent to server and saved in folder and filename is added to the data for that job.
+      description: Allows the user to post an obj file so that it can be saved and the filename added to the data for the current job.
+
+      responses:
+        '201':
+          description: created obj file and added filename to data
+
+  /get_current_objfilename:
+    get:
+      summary: gets filename of the current objfile used for printers.
+      description: Allows the user to get the current jobs obj file name for both printers.
+        The return type is a JSON array of printer/filename pairs represented as a dict
+
+      responses:
+        '200':
+          description: A JSON array of name/filename pairs represented as a dict
+
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description:
+                  details:
+                    type: array
+                    description: array contains the current objfiles currently used for both printers
