@@ -4,12 +4,14 @@ from datetime import timezone
 
 class PrinterCalls:
 
+    # returns current status of a specified printer
     def get_status(self,printer_number):
         status=[]
         status.append(requests.get('http://10.76.100.'+printer_number+'/api/v1/printer/status'))
         status.append(status[0].text)
         return status
 
+    # returns current data for a specified printer
     def get_job_info(self, printer_number):
         if self.get_status(printer_number)[1] == '"idle"':
             return ""
@@ -21,7 +23,6 @@ class PrinterCalls:
             results = []
             results.append(info["name"])
             datestart = info['datetime_started']
-            #datestart = datestart.replace(tzinfo=timezone.utc).estimezone(tz=None)
             results.append(datestart)
             results.append(info["datetime_finished"])
             results.append(info["state"])

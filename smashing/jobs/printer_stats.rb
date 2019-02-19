@@ -3,10 +3,10 @@ require 'net/http'
 
 SCHEDULER.every '5s', :first_in => 0 do |job|
 
-  host = 'http://10.76.100.155/'
-  host2 = 'http://10.76.100.44/'
+  Gutenberg = 'http://10.76.100.155/'
+  Xerox = 'http://10.76.100.44/'
 
-  url = URI.join(host, 'api/v1/printer')
+  url = URI.join(Gutenberg, 'api/v1/printer')
 
 
   response = Net::HTTP.get_response(url)
@@ -14,7 +14,7 @@ SCHEDULER.every '5s', :first_in => 0 do |job|
   if response.code.to_i == 200
     data = JSON.parse(response.body)
 
-	  temps=Hash.new
+	  Gutenberg_temps=Hash.new
 
     ex1temp = data['heads'][0]['extruders'][0]['hotend']['temperature']['current'].to_s
     #send_event('ex1temp', { temperature: ex1temp })
@@ -22,13 +22,13 @@ SCHEDULER.every '5s', :first_in => 0 do |job|
     ex2temp = data['heads'][0]['extruders'][1]['hotend']['temperature']['current'].to_s
     #send_event('ex2temp', { temperature: ex2temp })
 
-    bedtemp =data['bed']['temperature']['current'].to_s
+    bedtemp = data['bed']['temperature']['current'].to_s
     #send_event('temp', { temperature: bedtemp })
 
-	  temps['temp1']= bedtemp
-	  temps['temp2']= ex1temp
-	  temps['temp3']= ex2temp
-	  send_event('bedtemp',temps)
+	  Gutenberg_temps['bedtemp']= bedtemp
+	  Gutenberg_temps['extruder1']= ex1temp
+	  Gutenberg_temps['extruder2']= ex2temp
+	  send_event('Gutenberg_Temps',Gutenberg_temps)
     if data['status'].to_s == "idle"
       send_event('progress', { value: 0 })
       send_event('status', { text: 'Idle' })
@@ -92,16 +92,14 @@ SCHEDULER.every '5s', :first_in => 0 do |job|
       end
     end
   else
-    temp = Hash.new
-    temp['temp 1'] = ''
-    temp['temp 2'] = ''
-    temp['temp 3'] = ''
-    #send_event('temp 2', temp)
-    #send_event('temp 3', temp)
-    send_event('bedtemp', temp)
+    Gutenberg_temps = Hash.new
+    Gutenberg_temps['bedtemp'] = ''
+    Gutenberg_temps['extruder1'] = ''
+    Gutenberg_temps['extruder2'] = '' 
+    send_event('bedtemp', Gutenberg_temps)
   end
 
-  # url = URI.join(host, 'api/v1/print_job')
+  # url = URI.join(Gutenberg, 'api/v1/print_job')
   # response = Net::HTTP.get_response(url)
 
   # if response.code.to_i == 200
@@ -178,7 +176,7 @@ SCHEDULER.every '5s', :first_in => 0 do |job|
   #   send_event('elapsed', remaining)
   #   end
 
-  # url = URI.join(host2, 'api/v1/print_job')
+  # url = URI.join(Xerox, 'api/v1/print_job')
   # response = Net::HTTP.get_response(url)
   #
   # if response.code.to_i == 200
@@ -253,7 +251,7 @@ SCHEDULER.every '5s', :first_in => 0 do |job|
   #   send_event('elapsed2', remaining)
   #  end
   #
-	# url = URI.join(host2, 'api/v1/printer')
+	# url = URI.join(Xerox, 'api/v1/printer')
   #
   # response = Net::HTTP.get_response(url)
   #

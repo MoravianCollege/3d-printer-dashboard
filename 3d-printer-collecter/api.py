@@ -12,6 +12,7 @@ sql=sql()
 def blank():
     return json.dumps({})
 
+# Gets a number of jobs depending on the limit given.
 @app.route('/get_jobs')
 def job_list():
     limit = request.args.get('limit', '')
@@ -27,6 +28,9 @@ def job_list():
 
     else:
         return json.dumps(results[:limit])
+
+
+# Gets stats for the most recent job on specified printer
 @app.route('/get_display_stats')
 def display_stats():
     printer = request.args.get('printer', '')
@@ -39,6 +43,7 @@ def display_stats():
 
     return json.dumps(data)
 
+# allows for a http post to save a json file locally
 @app.route('/objfile',methods = ['POST'])
 def post_obj():
     auth = request.args.get('auth', '')
