@@ -1,7 +1,11 @@
 require 'dashing'
 
 configure do
-  set :auth_token, 'SUPER_SECRET_AUTH_TOKEN'
+  set :auth_token, 'YOUR_AUTH_TOKEN'
+
+  # See http://www.sinatrarb.com/intro.html > Available Template Languages on
+  # how to add additional template languages.
+  set :template_languages, %i[html erb]
 
   helpers do
     def protected!
