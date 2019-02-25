@@ -4,17 +4,17 @@
 let gl;
 
 // Buffer ids
-let verts_id, colors_id;
+let verts_id, color_identification;
 
 // Global list of vertices being drawn
 let verts = [];
 
 // Location of the view uniform
-let transform_loc,model_view_loc;
+let transform_loc,model_view_location;
 
 let last_redraw;
 
-let theta=0;
+let theta = 0;
 window.addEventListener('load', function init() {
 	// Get the HTML5 canvas object from it's ID
 	const canvas = document.getElementById('gl-canvas');
@@ -65,17 +65,17 @@ window.addEventListener('load', function init() {
 	gl.enableVertexAttribArray(vPosition); // enable this set of data
 
 	// Create the color buffer on the GPU but don't allocate any memory for it (do that once OBJ file is loaded)
-	colors_id = gl.createBuffer(); // create a new buffer
-	gl.bindBuffer(gl.ARRAY_BUFFER, colors_id); // bind to the new buffer
+	color_identification = gl.createBuffer(); // create a new buffer
+	gl.bindBuffer(gl.ARRAY_BUFFER, color_identification); // bind to the new buffer
 	let vColor = gl.getAttribLocation(program, 'vColor'); // get the vertex shader attribute "vColor"
 	gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, 0, 0); // associate the buffer with "vColor" making sure it knows it is length-3 vectors of floats
 	gl.enableVertexAttribArray(vColor); // enable this set of data
 
 	// Load the temple asynchronously
-	load_obj('cube.obj', cube_loaded);
+	load_obj('/assets/gourd.obj', obj_loaded);
 
 	// Get the location of the transform uniform
-	model_view_loc = gl.getUniformLocation(program, 'model_view');
+	model_view_location = gl.getUniformLocation(program, 'model_view');
 	transform_loc = gl.getUniformLocation(program, "transform");
 
 	// Listen to resize events
@@ -91,7 +91,7 @@ window.addEventListener('load', function init() {
  * Once the temple file is loaded we need to get the vertices of all of its triangles and setup the
  * colors based on the normals of the vertices.
  */
-function cube_loaded(pts, _, normals, inds) {
+function obj_loaded(pts, _, normals, inds) {
 	// Setup the data from the file
 	let colors = [];
 	let red = vec4(1.0, 0.0, 0.0, 1.0);
@@ -124,7 +124,7 @@ function cube_loaded(pts, _, normals, inds) {
 	// Load the vertex and color data into the GPU
 	gl.bindBuffer(gl.ARRAY_BUFFER, verts_id);
 	gl.bufferData(gl.ARRAY_BUFFER, flatten(verts), gl.STATIC_DRAW);
-	gl.bindBuffer(gl.ARRAY_BUFFER, colors_id);
+	gl.bindBuffer(gl.ARRAY_BUFFER, color_identification);
 	gl.bufferData(gl.ARRAY_BUFFER, flatten(colors), gl.STATIC_DRAW);
 
 	// Set the default view to isometric and render the scene.
@@ -150,8 +150,8 @@ function render(ms) {
 
 
 
-	//gl.uniformMatrix4fv(model_view_loc, false, flatten(Ocube));
-	gl.uniformMatrix4fv(model_view_loc, false, flatten(rotate(theta, 1, 1, 1)));
+	//gl.uniformMatrix4fv(model_view_location, false, flatten(Ocube));
+	gl.uniformMatrix4fv(model_view_location, false, flatten(rotate(theta, 1, 1, 1)));
 
 	gl.drawArrays(gl.TRIANGLES, 0, verts.length);
 
@@ -164,9 +164,9 @@ function render(ms) {
  */
 function onResize() {
 	let sz = Math.min(window.innerWidth, window.innerHeight);
-	gl.canvas.width = sz;
-	gl.canvas.height = sz;
-	gl.viewport(0, 0, sz, sz);
+	gl.canvas.width = 300;
+	gl.canvas.height = 360;
+	gl.viewport(0, 0, 300, 360);
 }
 
 /**
