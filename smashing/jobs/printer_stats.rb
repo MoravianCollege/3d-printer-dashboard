@@ -3,10 +3,10 @@ require 'net/http'
 
 SCHEDULER.every '5s', :first_in => 0 do |job|
 
-  Gutenberg = 'http://10.76.100.155/'
-  Xerox = 'http://10.76.100.44/'
+  gutenberg = 'http://10.76.100.155/'
+  xerox = 'http://10.76.100.44/'
 
-  url = URI.join(Gutenberg, 'api/v1/printer')
+  url = URI.join(gutenberg, 'api/v1/printer')
 
 
   response = Net::HTTP.get_response(url)
@@ -95,7 +95,7 @@ SCHEDULER.every '5s', :first_in => 0 do |job|
     Gutenberg_temps = Hash.new
     Gutenberg_temps['bedtemp'] = ''
     Gutenberg_temps['extruder1'] = ''
-    Gutenberg_temps['extruder2'] = '' 
+    Gutenberg_temps['extruder2'] = ''
     send_event('bedtemp', Gutenberg_temps)
   end
 
@@ -251,7 +251,7 @@ SCHEDULER.every '5s', :first_in => 0 do |job|
   #   send_event('elapsed2', remaining)
   #  end
   #
-	# url = URI.join(Xerox, 'api/v1/printer')
+	# url = URI.join(xerox, 'api/v1/printer')
   #
   # response = Net::HTTP.get_response(url)
   #
