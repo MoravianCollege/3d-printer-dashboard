@@ -5,11 +5,14 @@ class printer_api:
     def __init__(self,printer,sql):
         self.sql=sql
         self.printer=printer
+    # writes data for both printers to sql database
     def write_data(self):
             self.gutenbergdata = self.printer.get_job_info('155')
             self.xeroxdata = self.printer.get_job_info('44')
+
             if self.gutenbergdata != "":
                 filein=self.sql.exists(self.gutenbergdata[1])
+            # if printer exists then just update sql, if printer doesn't exist add stats to sql
                 if filein==1:
                     self.sql.updatesql('endtime',self.gutenbergdata[2],self.gutenbergdata[1])
                     self.sql.updatesql('time_elapsed',self.gutenbergdata[4], self.gutenbergdata[1])
@@ -25,6 +28,8 @@ class printer_api:
 
             if self.xeroxdata != "":
                 filein = self.sql.exists(self.xeroxdata[1])
+
+            # if printer exists then just update sql, if printer doesn't exist add stats to sql
                 if filein == 1:
                     self.sql.updatesql('endtime', self.xeroxdata[2], self.xeroxdata[1])
                     self.sql.updatesql('time_elapsed', self.xeroxdata[4], self.xeroxdata[1])
