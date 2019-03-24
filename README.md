@@ -14,7 +14,7 @@ In the 3D printer project we are working with the 3D printers in the computer sc
 * Install pip3: `sudo apt-get install python3-pip`
 * Install [Apache] (https://www.apache.org/): `sudo apt-get install apache2 -y`
 * Install [PHP] (http://www.php.net/): `sudo apt-get install php -y`
-* Install [MySQL] (): `sudo apt-get install mysql-server php-mysql -y`
+* Install [MySQL] (README.md): `sudo apt-get install mysql-server php-mysql -y`
 * Initialize MySQL database: `???`
 * Install [gunicorn] (https://gunicorn.org/): `sudo pip3 install gunicorn`
 * Clone this repo to the Pi (and go into the directory)
