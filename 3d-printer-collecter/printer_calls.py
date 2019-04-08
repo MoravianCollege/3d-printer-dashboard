@@ -2,12 +2,13 @@ import requests
 import json
 from datetime import timezone
 
+
 class PrinterCalls:
 
     # returns current status of a specified printer
     def get_status(self,printer_number):
         status=[]
-        status.append(requests.get('http://10.76.100.'+printer_number+'/api/v1/printer/status'))
+        status.append(requests.get('http://172.31.228.'+printer_number+'/api/v1/printer/status'))
         status.append(status[0].text)
         return status
 
@@ -18,7 +19,7 @@ class PrinterCalls:
         if self.get_status(printer_number)[1] == '"maintenance"':
             return ""
         else:
-            info = requests.get('http://10.76.100.'+printer_number+'/api/v1/print_job')
+            info = requests.get('http://172.31.228.'+printer_number+'/api/v1/print_job')
             info = json.loads(info.text)
             results = []
             results.append(info["name"])
@@ -28,7 +29,7 @@ class PrinterCalls:
             results.append(info["state"])
             time_elapsed=info['time_elapsed']
             results.append(time_elapsed)
-            info = requests.get('http://10.76.100.'+printer_number+'/api/v1/printer')
+            info = requests.get('http://172.31.228.'+printer_number+'/api/v1/printer')
             info = json.loads(info.text)
             results.append(info['heads'][0]['extruders'][0]['hotend']['temperature']['current'])
             results.append(info['heads'][0]['extruders'][1]['hotend']['temperature']['current'])
