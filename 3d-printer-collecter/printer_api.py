@@ -1,6 +1,8 @@
 from sql import sql
 import time
 from printer_calls import PrinterCalls
+
+
 class printer_api:
     def __init__(self,printer,sql):
         self.sql=sql

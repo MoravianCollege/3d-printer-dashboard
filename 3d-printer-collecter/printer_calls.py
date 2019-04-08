@@ -2,6 +2,7 @@ import requests
 import json
 from datetime import timezone
 
+
 class PrinterCalls:
 
     # returns current status of a specified printer
