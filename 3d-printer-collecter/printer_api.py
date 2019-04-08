@@ -7,8 +7,8 @@ class printer_api:
         self.printer=printer
     # writes data for both printers to sql database
     def write_data(self):
-            self.gutenbergdata = self.printer.get_job_info('155')
-            self.xeroxdata = self.printer.get_job_info('44')
+            self.gutenbergdata = self.printer.get_job_info('190')
+            self.xeroxdata = self.printer.get_job_info('191')
 
             if self.gutenbergdata != "":
                 filein=self.sql.exists(self.gutenbergdata[1])
