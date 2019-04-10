@@ -1,0 +1,4 @@
+pymysql==0.9.3
+requests==2.21.0
+flask==1.0.2
+dash==0.40.0

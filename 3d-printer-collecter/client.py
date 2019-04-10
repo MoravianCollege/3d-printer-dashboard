@@ -1,9 +1,8 @@
 import requests
 import json
-import texttable as tt
-
-
-
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
 
 data=requests.get('http://127.0.0.1:5000/get_jobs?limit=10')
 data=json.loads(data.text)
