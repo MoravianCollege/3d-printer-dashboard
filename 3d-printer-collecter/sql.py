@@ -1,13 +1,15 @@
 import pymysql
 
+
 class sql:
     def __init__(self):
         server = 'localhost'
         database = 'printer'
         user = 'root'
+        password = '3dprinting'
 
         # database connection
-        conn = pymysql.connect(host=server, user=user, db=database)
+        conn = pymysql.connect(host=server, user=user, db=database, password=password)
         if (conn):
             print('Connection to MySQL database', database, 'was successful!')
         self.cursor = conn.cursor()
