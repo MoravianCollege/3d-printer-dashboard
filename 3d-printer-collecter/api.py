@@ -12,6 +12,7 @@ sql=sql()
 def blank():
     return json.dumps({})
 
+
 # Gets a number of jobs depending on the limit given.
 @app.route('/get_jobs')
 def job_list():
@@ -42,6 +43,7 @@ def display_stats():
                 data.append(result)
 
     return json.dumps(data)
+
 
 # allows for a http post to save a json file locally
 @app.route('/objfile',methods = ['POST'])
