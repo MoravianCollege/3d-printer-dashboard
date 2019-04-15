@@ -11,7 +11,7 @@ In the 3D printer project we are working with the 3D printers in the computer sc
 * Update the package manager: `sudo apt-get update`
 * Install pip3: `sudo apt install python3-pip`
 * Install [MySQL] (README.md): `sudo apt-get install mysql-server`
-* Set MySQL password and create `printer`	 database:
+* Set MySQL password and create `printer` database:
 	* Access MySQL: `sudo mysql -u root`
 	* Use correct database (once inside MySQL): `use mysql;`
 	* Change password: `UPDATE	 user SET authentication_string=PASSWORD("3dprinting") WHERE User='root';`
@@ -23,7 +23,7 @@ In the 3D printer project we are working with the 3D printers in the computer sc
 * Note the name of the directory: `pwd` (referred to as`<repo-dir>` below)
 * Install the dependencies (as root): `sudo pip3 install -r requirements.txt`
 * Set SQL database to be used for printer stats:
-	* Go to collector directory: `cd <repo-dir>/3d-printer-collecter`
+	* Go to collector directory: `cd <repo-dir>/3d-printer-collector`
 	* Source .sql file to be used with printer database: `mysql -u root -p printer < 3d_printer_table.sql`
 * Edit `etc/rc.local` and add the following *above* `exit 0`: (Replace `<repo dir>` with the absolute path and note the `&` at the end of each line!) <br/>
 `python3 <repo dir>/3d-printer-collecter/main.py &` </br>
