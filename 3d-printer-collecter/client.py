@@ -177,7 +177,7 @@ app.layout = html.Div(
             placeholder='',
             readOnly=True,
             value=extruder1_temp[0] + '\n' + extruder2_temp[0] + '\n' + bedtemp[0],
-            style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
+            style={'display': 'inline-block', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
                    'vertical-align': 'middle',
                    'border-color': colors['background'], 'backgroundColor': colors['gutenberg'],
                    'color': colors['text']}
@@ -188,20 +188,20 @@ app.layout = html.Div(
             figure={
                 'data': [obj.mesh],
                 'layout': {
-                    'title': 'Obj 1',
                     'plot_bgcolor': colors['background'],
                     'paper_bgcolor': colors['background'],
+                    'margin': {'l': 10, 'b': 20, 't': 0, 'r': 0}
                 }
             },
-            config={'editable': False, 'scrollZoom': True},
-            style={'width': '315', 'height': '200'},
+            config={'editable': True, 'scrollZoom': True},
+            style={'display': 'inline-block', 'width': '315', 'height': '200', 'vertical-align': 'middle'},
         ),
 
         dcc.Textarea(
             placeholder='',
             readOnly=True,
             value=extruder1_temp[1] + '\n' + extruder2_temp[1] + '\n' + bedtemp[1],
-            style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
+            style={'display': 'inline-block', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
                    'vertical-align': 'middle',
                    'border-color': colors['background'], 'backgroundColor': colors['xerox'], 'color': colors['text']}
         ),
@@ -211,13 +211,13 @@ app.layout = html.Div(
             figure={
                 'data': [obj2.mesh],
                 'layout': {
-                    'title': 'Obj 2',
                     'plot_bgcolor': colors['background'],
-                    'paper_bgcolor': colors['background']
+                    'paper_bgcolor': colors['background'],
+                    'margin': {'l': 10, 'b': 20, 't': 0, 'r': 0}
                 }
             },
-            config={'editable': False, 'scrollZoom': True},
-            style={'width': '315', 'height': '200'},
+            config={'editable': True, 'scrollZoom': True},
+            style={'display': 'inline-block', 'width': '315', 'height': '200', 'vertical-align': 'middle'},
         ),
 
         dcc.Interval(
