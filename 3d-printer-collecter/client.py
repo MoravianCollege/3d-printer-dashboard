@@ -84,24 +84,24 @@ app.layout = html.Div(
 
         dcc.Textarea(
             value='Gutenberg',
-            disabled=True,
-            readOnly=True,
-            style={'color': colors['text'], 'float': 'left', 'backgroundColor': colors['background'], 'width': '630',
+            disabled='True',
+            readOnly='True',
+            style={'resize': 'none', 'color': colors['text'], 'float': 'left', 'backgroundColor': colors['background'], 'width': '630',
                    'height': '50', 'font-size': '25', 'text-align': 'center', 'border-color': colors['background']}
         ),
 
         dcc.Textarea(
             value='Xerox',
             readOnly=True,
-            style={'color': colors['text'], 'float': 'right', 'backgroundColor': colors['background'], 'width': '630',
+            style={'resize': 'none', 'color': colors['text'], 'float': 'right', 'backgroundColor': colors['background'], 'width': '630',
                    'height': '50', 'font-size': '25', 'text-align': 'center', 'border-color': colors['background']}
         ),
 
         dcc.Textarea(
             placeholder='',
             readOnly=True,
-            value=status[0],
-            style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
+            value="Status: \n %s" % (status[0]),
+            style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
                    'vertical-align': 'middle',
                    'border-color': colors['background'], 'backgroundColor': colors['gutenberg'],
                    'color': colors['text']}
@@ -110,8 +110,8 @@ app.layout = html.Div(
         dcc.Textarea(
             placeholder='',
             readOnly=True,
-            value=filenames[0],
-            style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
+            value="Filename: \n %s" % (filenames[0]),
+            style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
                    'vertical-align': 'middle',
                    'border-color': colors['background'], 'backgroundColor': colors['gutenberg'],
                    'color': colors['text']}
@@ -120,8 +120,8 @@ app.layout = html.Div(
         dcc.Textarea(
             placeholder='',
             readOnly=True,
-            value=status[1],
-            style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
+            value="Status: \n %s" % (status[1]),
+            style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
                    'vertical-align': 'middle',
                    'border-color': colors['background'], 'backgroundColor': colors['xerox'], 'color': colors['text']}
         ),
@@ -129,8 +129,8 @@ app.layout = html.Div(
         dcc.Textarea(
             placeholder='',
             readOnly=True,
-            value=filenames[1],
-            style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
+            value="Filename: \n %s" % (filenames[1]),
+            style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
                    'vertical-align': 'middle',
                    'border-color': colors['background'], 'backgroundColor': colors['xerox'], 'color': colors['text']}
         ),
@@ -138,8 +138,8 @@ app.layout = html.Div(
         dcc.Textarea(
             placeholder='',
             readOnly=True,
-            value=date_started[0] + '\n' + date_finished[0],
-            style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
+            value="Date Started: \n %s \n \n Date finished: \n %s" % (date_started[0], date_finished[0]),
+            style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
                    'vertical-align': 'middle',
                    'border-color': colors['background'], 'backgroundColor': colors['gutenberg'],
                    'color': colors['text']}
@@ -148,8 +148,8 @@ app.layout = html.Div(
         dcc.Textarea(
             placeholder='',
             readOnly=True,
-            value=time_elapsed[0],
-            style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
+            value="Time elapsed: \n %s" % (time_elapsed[0]),
+            style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
                    'vertical-align': 'middle',
                    'border-color': colors['background'], 'backgroundColor': colors['gutenberg'],
                    'color': colors['text']}
@@ -158,8 +158,8 @@ app.layout = html.Div(
         dcc.Textarea(
             placeholder='',
             readOnly=True,
-            value=date_started[0] + '\n' + date_finished[0],
-            style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
+            value="Date Started: \n %s \n \n Date finished: \n %s" % (date_started[0], date_finished[0]),
+            style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
                    'vertical-align': 'middle',
                    'border-color': colors['background'], 'backgroundColor': colors['xerox'], 'color': colors['text']}
         ),
@@ -167,8 +167,8 @@ app.layout = html.Div(
         dcc.Textarea(
             placeholder='',
             readOnly=True,
-            value=time_elapsed[1],
-            style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
+            value="Time elapsed: \n %s" % (time_elapsed[1]),
+            style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
                    'vertical-align': 'middle',
                    'border-color': colors['background'], 'backgroundColor': colors['xerox'], 'color': colors['text']}
         ),
@@ -176,8 +176,8 @@ app.layout = html.Div(
         dcc.Textarea(
             placeholder='',
             readOnly=True,
-            value=extruder1_temp[0] + '\n' + extruder2_temp[0] + '\n' + bedtemp[0],
-            style={'display': 'inline-block', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
+            value="Extruder temp. 1: \n %s \n Extruder temp. 2: \n %s \n Bed temp. : \n %s" % (extruder1_temp[0], extruder2_temp[0], bedtemp[0]),
+            style={'resize': 'none', 'display': 'inline-block', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
                    'vertical-align': 'middle',
                    'border-color': colors['background'], 'backgroundColor': colors['gutenberg'],
                    'color': colors['text']}
@@ -200,8 +200,8 @@ app.layout = html.Div(
         dcc.Textarea(
             placeholder='',
             readOnly=True,
-            value=extruder1_temp[1] + '\n' + extruder2_temp[1] + '\n' + bedtemp[1],
-            style={'display': 'inline-block', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
+            value="Extruder temp. 1: \n %s \n Extruder temp. 2: \n %s \n Bed temp. : \n %s" % (extruder1_temp[1], extruder2_temp[1], bedtemp[1]),
+            style={'resize': 'none', 'display': 'inline-block', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
                    'vertical-align': 'middle',
                    'border-color': colors['background'], 'backgroundColor': colors['xerox'], 'color': colors['text']}
         ),
