@@ -1,14 +1,10 @@
 import requests
 import json
-import texttable as tt
 import dash
-import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
-import pandas as pd
-
 
 filenames=[]
 printer=[]
@@ -105,6 +101,7 @@ app.layout = html.Div(
 
     dcc.Textarea(
         placeholder='',
+        id='status_G',
         readOnly=True,
         value=status[0],
         style={'width': '315', 'height':'200','font-size':'25','text-align':'center','vertical-align':'middle',
@@ -112,6 +109,7 @@ app.layout = html.Div(
     ),
     dcc.Textarea(
         placeholder='',
+        id = 'filename_G',
         readOnly=True,
         value=filenames[0],
         style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center', 'vertical-align': 'middle',
@@ -119,6 +117,7 @@ app.layout = html.Div(
     ),
     dcc.Textarea(
         placeholder='',
+        id='status_X',
         readOnly=True,
         value=status[1],
         style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center', 'vertical-align': 'middle',
@@ -126,6 +125,7 @@ app.layout = html.Div(
     ),
     dcc.Textarea(
         placeholder='',
+        id='filename_X',
         readOnly=True,
         value=filenames[1],
         style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center', 'vertical-align': 'middle',
@@ -133,6 +133,7 @@ app.layout = html.Div(
     ),
     dcc.Textarea(
         placeholder='',
+        id = 'date_G',
         readOnly=True,
         value=date_started[0] + '\n' + date_finished[0],
         style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center', 'vertical-align': 'middle',
@@ -140,6 +141,7 @@ app.layout = html.Div(
     ),
     dcc.Textarea(
         placeholder='',
+        id='time_G',
         readOnly=True,
         value=time_elapsed[0],
         style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center', 'vertical-align': 'middle',
@@ -147,6 +149,7 @@ app.layout = html.Div(
     ),
     dcc.Textarea(
         placeholder='',
+        id='date_X',
         readOnly=True,
         value=date_started[0] + '\n' + date_finished[0],
         style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center', 'vertical-align': 'middle',
@@ -154,6 +157,7 @@ app.layout = html.Div(
     ),
     dcc.Textarea(
         placeholder='',
+        id='time_X',
         readOnly=True,
         value=time_elapsed[1],
         style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center', 'vertical-align': 'middle',
@@ -161,6 +165,7 @@ app.layout = html.Div(
     ),
     dcc.Textarea(
         placeholder='',
+        id='temps_G',
         readOnly=True,
         value=extruder1_temp[0] + '\n' + extruder2_temp[0] + '\n' + bedtemp[0],
         style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center', 'vertical-align': 'middle',
@@ -175,6 +180,7 @@ app.layout = html.Div(
     ),
     dcc.Textarea(
         placeholder='',
+        id='temps_X',
         readOnly=True,
         value=extruder1_temp[1] + '\n' + extruder2_temp[1] + '\n' + bedtemp[1],
         style={'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center', 'vertical-align': 'middle',
@@ -190,15 +196,47 @@ app.layout = html.Div(
 
     dcc.Interval(
         id='interval-component',
-        interval= 1 * 6000,
+        interval= 1 * 5000,
         n_intervals=0
     )
 ])
 
+@app.callback([Output('status_G', 'value'),
+               Output('filename_G','value'),
+               Output('date_G', 'value'),
+               Output('time_G', 'value'),
+               Output('temps_G', 'value'),],
+              [Input('interval-component', 'n_intervals')])
+def update_Gutenberg(n):
+    data_gutenberg=requests.get('http://127.0.0.1:5000/get_display_stats?printer=gutenberg')
+    data_gutenberg=json.loads(data_gutenberg.text)
+    if data_gutenberg == []:
+        return '','','','',''
+    else:
+        for names in data_gutenberg:
+            return names['details']['status'], names['filename'],\
+                    names['details']['starttime']+ '\n' + names['details']['endtime'],\
+                    names['details']['time_elapsed'], \
+                    str(names['details']['extruder1_temp']) + '\n' + str(names['details']['extruder2_temp']) + '\n' + str(names['details']['bedtemp'])
 
 
-
-
+@app.callback([Output('status_X', 'value'),
+               Output('filename_X','value'),
+               Output('date_X', 'value'),
+               Output('time_X', 'value'),
+               Output('temps_X', 'value'),],
+              [Input('interval-component', 'n_intervals')])
+def update_Xerox(n):
+    data_xerox = requests.get('http://127.0.0.1:5000/get_display_stats?printer=xerox')
+    data_xerox = json.loads(data_xerox.text)
+    if data_xerox == []:
+        return '','','','',''
+    else:
+        for names in data_xerox:
+            return names['details']['status'], names['filename'],\
+                    names['details']['starttime']+ '\n' + names['details']['endtime'],\
+                    names['details']['time_elapsed'], \
+                    str(names['details']['extruder1_temp']) + '\n' + str(names['details']['extruder2_temp']) + '\n' + str(names['details']['bedtemp'])
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0')
 
