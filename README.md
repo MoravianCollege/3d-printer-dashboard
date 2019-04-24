@@ -27,7 +27,7 @@ In the 3D printer project we are working with the 3D printers in the computer sc
 	* Source .sql file to be used with printer database: `mysql -u root -p printer < 3d_printer_table.sql`
 * Edit `etc/rc.local` and add the following *above* `exit 0`: (Replace `<repo dir>` with the absolute path and note the `&` at the end of each line!) <br/>
 `python3 <repo dir>/3d-printer-collecter/main.py &` </br>
-`python3 <repo dir>/3d-printer-collecter/api.py &` </br>
+`gunicorn -b 127.0.0.1:5000 api:app &` </br>
 `python3 <repo dir>/3d-printer-collecter/client.py &` </br>
 * Reboot the Pi: `sudo reboot`
 * Add a new asset to Screenly in the form `http://<IP>:8050`
