@@ -1,5 +1,5 @@
 # 3d-printer-dashboard
-In the 3D printer project we are working with the 3D printers in the computer science lab and our goal is to read information from the printer and be able to display it. The printers have many characteristics that we can get information from, such as the temperature of the beds, the current item being printed, what printer is being used, etc. We are using the printers' API to get all of this information. We are utilizing a framework called Smashing to display a dashboard on our computer, and to be able to get the information formatted in a readable way.
+In the 3D printer project we are working with the 3D printers in the computer science lab and our goal is to read information from the printer and be able to display it. The printers have many characteristics that we can get information from, such as the temperature of the beds, the current item being printed, what printer is being used, etc. We are using the printers' API to get all of this information. We are utilizing a Python framework called Dash to display a dashboard on our computer, and to be able to get the information formatted in a readable way.
 
 
 # Production Setup
