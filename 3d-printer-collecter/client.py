@@ -75,8 +75,8 @@ colors = {
 
 }
 
-obj = ObjObject.ObjObject("https://people.sc.fsu.edu/~jburkardt/data/obj/teapot.obj")
-obj2 = ObjObject.ObjObject("https://people.sc.fsu.edu/~jburkardt/data/obj/octahedron.obj")
+obj = ObjObject.ObjObject("static/objfiles/gourd.obj")
+obj2 = ObjObject.ObjObject("static/objfiles/teapot.obj")
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -101,6 +101,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id='status_G',
             readOnly=True,
             value="Status: \n %s" % (status[0]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -111,6 +112,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id='filename_G',
             readOnly=True,
             value="Filename: \n %s" % (filenames[0]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -121,6 +123,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'status_X',
             readOnly=True,
             value="Status: \n %s" % (status[1]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -130,6 +133,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'filename_X',
             readOnly=True,
             value="Filename: \n %s" % (filenames[1]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -139,6 +143,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'date_G',
             readOnly=True,
             value="Date Started: \n %s \n \n Date finished: \n %s" % (date_started[0], date_finished[0]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -149,6 +154,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'time_G',
             readOnly=True,
             value="Time elapsed: \n %s" % (time_elapsed[0]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -159,6 +165,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'date_X',
             readOnly=True,
             value="Date Started: \n %s \n \n Date finished: \n %s" % (date_started[0], date_finished[0]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -168,6 +175,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'time_X',
             readOnly=True,
             value="Time elapsed: \n %s" % (time_elapsed[1]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -177,6 +185,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'temps_G',
             readOnly=True,
             value="Extruder temp. 1: \n %s \n Extruder temp. 2: \n %s \n Bed temp. : \n %s" % (extruder1_temp[0], extruder2_temp[0], bedtemp[0]),
             style={'resize': 'none', 'display': 'inline-block', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -201,6 +210,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'temps_X',
             readOnly=True,
             value="Extruder temp. 1: \n %s \n Extruder temp. 2: \n %s \n Bed temp. : \n %s" % (extruder1_temp[1], extruder2_temp[1], bedtemp[1]),
             style={'resize': 'none', 'display': 'inline-block', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
