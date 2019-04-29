@@ -1,14 +1,16 @@
 from sql import sql
 import time
 from printer_calls import PrinterCalls
+
+
 class printer_api:
     def __init__(self,printer,sql):
         self.sql=sql
         self.printer=printer
     # writes data for both printers to sql database
     def write_data(self):
-            self.gutenbergdata = self.printer.get_job_info('155')
-            self.xeroxdata = self.printer.get_job_info('44')
+            self.gutenbergdata = self.printer.get_job_info('190')
+            self.xeroxdata = self.printer.get_job_info('191')
 
             if self.gutenbergdata != "":
                 filein=self.sql.exists(self.gutenbergdata[1])
