@@ -9,8 +9,17 @@ In the 3D printer project we are working with the 3D printers in the computer sc
 * Connect using the IP: `sudo ssh pi@<IP>`. Password for the Pi is `raspberry`
 * Change the password: `sudo passwd pi`
 * Update the package manager: `sudo apt-get update`
-* Install pip3: `sudo apt install python3-pip`
-* Install [MySQL] (README.md): `sudo apt-get install mysql-server`
+* Install pip: `sudo apt install python3-pip`
+* Install [Numpy] (https://www.numpy.org/): `sudo apt-get install python3-numpy`
+* Install [MySQL] (https://www.mysql.com/): `sudo apt-get install mysql-server`
+* Enable OpenGL:
+	* Access the Raspberry Pi Software Configuration Tool: `raspi-config`
+	* Select Advanced Options
+	* Select GL Driver
+	* Select GL (Full KMS)
+	* Select Finish and reboot the pi
+	* Once pi is rebooted, install Google Chromium: `sudo apt-get install chromium-browser --yes`
+	* `???`
 * Set MySQL password and create `printer` database:
 	* Access MySQL: `sudo mysql -u root`
 	* Use correct database (once inside MySQL): `use mysql;`
@@ -26,8 +35,8 @@ In the 3D printer project we are working with the 3D printers in the computer sc
 	* Go to collector directory: `cd <repo-dir>/3d-printer-collector`
 	* Source .sql file to be used with printer database: `mysql -u root -p printer < 3d_printer_table.sql`
 * Edit `etc/rc.local` and add the following *above* `exit 0`: (Replace `<repo dir>` with the absolute path and note the `&` at the end of each line!) <br/>
-`python3 <repo dir>/3d-printer-collecter/main.py &` </br>
-`gunicorn -b 127.0.0.1:5000 api:app &` </br>
-`python3 <repo dir>/3d-printer-collecter/client.py &` </br>
+`python3 <repo-dir>/3d-printer-collecter/main.py &` </br>
+`cd <repo-dir>/3d-printer/collecter && gunicorn -b 127.0.0.1:5000 api:app &` </br>
+`python3 <repo-dir>/3d-printer-collecter/client.py &` </br>
 * Reboot the Pi: `sudo reboot`
 * Add a new asset to Screenly in the form `http://<IP>:8050`
