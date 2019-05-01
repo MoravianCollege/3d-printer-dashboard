@@ -1,9 +1,12 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Input, Output
+
 import json
 import requests
 import ObjObject
+import time
 
 
 filenames = []
@@ -70,11 +73,10 @@ colors = {
     'text': '#ffffff',
     'gutenberg': 'rgb(0, 0, 255)',
     'xerox': 'rgb(255, 111, 50)'
-
 }
 
-obj = ObjObject.ObjObject("https://people.sc.fsu.edu/~jburkardt/data/obj/teapot.obj")
-obj2 = ObjObject.ObjObject("https://people.sc.fsu.edu/~jburkardt/data/obj/octahedron.obj")
+obj = ObjObject.ObjObject("static/objfiles/gourd.obj")
+obj2 = ObjObject.ObjObject("static/objfiles/teapot.obj")
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -99,6 +101,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id='status_G',
             readOnly=True,
             value="Status: \n %s" % (status[0]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -109,6 +112,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id='filename_G',
             readOnly=True,
             value="Filename: \n %s" % (filenames[0]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -119,6 +123,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'status_X',
             readOnly=True,
             value="Status: \n %s" % (status[1]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -128,6 +133,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'filename_X',
             readOnly=True,
             value="Filename: \n %s" % (filenames[1]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -137,6 +143,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'date_G',
             readOnly=True,
             value="Date Started: \n %s \n \n Date finished: \n %s" % (date_started[0], date_finished[0]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -147,6 +154,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'time_G',
             readOnly=True,
             value="Time elapsed: \n %s" % (time_elapsed[0]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -157,6 +165,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'date_X',
             readOnly=True,
             value="Date Started: \n %s \n \n Date finished: \n %s" % (date_started[0], date_finished[0]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -166,6 +175,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'time_X',
             readOnly=True,
             value="Time elapsed: \n %s" % (time_elapsed[1]),
             style={'resize': 'none', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -175,6 +185,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'temps_G',
             readOnly=True,
             value="Extruder temp. 1: \n %s \n Extruder temp. 2: \n %s \n Bed temp. : \n %s" % (extruder1_temp[0], extruder2_temp[0], bedtemp[0]),
             style={'resize': 'none', 'display': 'inline-block', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -199,6 +210,7 @@ app.layout = html.Div(
 
         dcc.Textarea(
             placeholder='',
+            id = 'temps_X',
             readOnly=True,
             value="Extruder temp. 1: \n %s \n Extruder temp. 2: \n %s \n Bed temp. : \n %s" % (extruder1_temp[1], extruder2_temp[1], bedtemp[1]),
             style={'resize': 'none', 'display': 'inline-block', 'width': '315', 'height': '200', 'font-size': '25', 'text-align': 'center',
@@ -222,10 +234,52 @@ app.layout = html.Div(
 
         dcc.Interval(
             id='interval-component',
-            interval=1 * 6000,
+            interval=1 * 10000,
             n_intervals=0
         )
     ])
+
+@app.callback([Output('status_G', 'value'),
+                   Output('filename_G','value'),
+                   Output('date_G', 'value'),
+                   Output('time_G', 'value'),
+                   Output('temps_G', 'value'),],
+                  [Input('interval-component', 'n_intervals')])
+def update_Gutenberg(n):
+        data_gutenberg=requests.get('http://127.0.0.1:5000/get_display_stats?printer=gutenberg')
+        data_gutenberg=json.loads(data_gutenberg.text)
+        if data_gutenberg == []:
+            return '','','','',''
+        else:
+            for names in data_gutenberg:
+                return "Status: \n %s" % names['details']['status'], "Filename: \n %s" %  names['filename'], \
+                       "Date Started: \n %s \n \n Date finished: \n %s" % (names['details']['starttime'],names['details']['endtime']), \
+                       "Time elapsed: \n %s" % names['details']['time_elapsed'], \
+                       "Extruder temp. 1: \n %s \n Extruder temp. 2: \n %s \n Bed temp. : \n %s" % (str(names['details']['extruder1_temp']),str(names['details']['extruder2_temp']), str(names['details']['bedtemp']))
+
+
+@app.callback([Output('status_X', 'value'),
+                   Output('filename_X','value'),
+                   Output('date_X', 'value'),
+                   Output('time_X', 'value'),
+                   Output('temps_X', 'value'),],
+                  [Input('interval-component', 'n_intervals')])
+def update_Xerox(n):
+        time.sleep(2)
+        data_xerox = requests.get('http://127.0.0.1:5000/get_display_stats?printer=xerox')
+        data_xerox = json.loads(data_xerox.text)
+        if data_xerox == []:
+            return '','','','',''
+        else:
+            for names in data_xerox:
+                return "Status: \n %s" % names['details']['status'], "Filename: \n %s" % names['filename'], \
+                       "Date Started: \n %s \n \n Date finished: \n %s" % (
+                       names['details']['starttime'], names['details']['endtime']), \
+                       "Time elapsed: \n %s" % names['details']['time_elapsed'], \
+                       "Extruder temp. 1: \n %s \n Extruder temp. 2: \n %s \n Bed temp. : \n %s" % (
+                       str(names['details']['extruder1_temp']), str(names['details']['extruder2_temp']),
+                       str(names['details']['bedtemp']))
+
 
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0')
