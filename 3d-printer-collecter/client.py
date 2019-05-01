@@ -6,6 +6,7 @@ from dash.dependencies import Input, Output
 import json
 import requests
 import ObjObject
+import time
 
 
 filenames = []
@@ -72,7 +73,6 @@ colors = {
     'text': '#ffffff',
     'gutenberg': 'rgb(0, 0, 255)',
     'xerox': 'rgb(255, 111, 50)'
-
 }
 
 obj = ObjObject.ObjObject("static/objfiles/gourd.obj")
@@ -234,7 +234,7 @@ app.layout = html.Div(
 
         dcc.Interval(
             id='interval-component',
-            interval=1 * 6000,
+            interval=1 * 10000,
             n_intervals=0
         )
     ])
@@ -252,10 +252,10 @@ def update_Gutenberg(n):
             return '','','','',''
         else:
             for names in data_gutenberg:
-                return names['details']['status'], names['filename'],\
-                        names['details']['starttime']+ '\n' + names['details']['endtime'],\
-                        names['details']['time_elapsed'], \
-                        str(names['details']['extruder1_temp']) + '\n' + str(names['details']['extruder2_temp']) + '\n' + str(names['details']['bedtemp'])
+                return "Status: \n %s" % names['details']['status'], "Filename: \n %s" %  names['filename'], \
+                       "Date Started: \n %s \n \n Date finished: \n %s" % (names['details']['starttime'],names['details']['endtime']), \
+                       "Time elapsed: \n %s" % names['details']['time_elapsed'], \
+                       "Extruder temp. 1: \n %s \n Extruder temp. 2: \n %s \n Bed temp. : \n %s" % (str(names['details']['extruder1_temp']),str(names['details']['extruder2_temp']), str(names['details']['bedtemp']))
 
 
 @app.callback([Output('status_X', 'value'),
@@ -265,16 +265,21 @@ def update_Gutenberg(n):
                    Output('temps_X', 'value'),],
                   [Input('interval-component', 'n_intervals')])
 def update_Xerox(n):
+        time.sleep(2)
         data_xerox = requests.get('http://127.0.0.1:5000/get_display_stats?printer=xerox')
         data_xerox = json.loads(data_xerox.text)
         if data_xerox == []:
             return '','','','',''
         else:
             for names in data_xerox:
-                return names['details']['status'], names['filename'],\
-                        names['details']['starttime']+ '\n' + names['details']['endtime'],\
-                        names['details']['time_elapsed'], \
-                        str(names['details']['extruder1_temp']) + '\n' + str(names['details']['extruder2_temp']) + '\n' + str(names['details']['bedtemp'])
+                return "Status: \n %s" % names['details']['status'], "Filename: \n %s" % names['filename'], \
+                       "Date Started: \n %s \n \n Date finished: \n %s" % (
+                       names['details']['starttime'], names['details']['endtime']), \
+                       "Time elapsed: \n %s" % names['details']['time_elapsed'], \
+                       "Extruder temp. 1: \n %s \n Extruder temp. 2: \n %s \n Bed temp. : \n %s" % (
+                       str(names['details']['extruder1_temp']), str(names['details']['extruder2_temp']),
+                       str(names['details']['bedtemp']))
+
 
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0')
